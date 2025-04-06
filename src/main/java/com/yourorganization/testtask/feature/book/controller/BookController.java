@@ -4,6 +4,7 @@ import com.yourorganization.testtask.feature.book.dto.BookRequestDto;
 import com.yourorganization.testtask.feature.book.dto.BookResponseDto;
 import com.yourorganization.testtask.feature.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/books")
-public class BookController {
+public class BookController implements BookApi {
 
     private final BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(@Qualifier("bookServiceImpl1") BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -35,6 +36,12 @@ public class BookController {
     @GetMapping("/getAll")
     public Page<BookResponseDto> getAllBooks(Pageable pageable) {
         return bookService.listBooks(null, pageable);
+    }
+
+    @Override
+    @GetMapping("/getByIsbn/{isbn}")
+    public BookResponseDto getBookByIsbn(@PathVariable String isbn) {
+        return bookService.findBookByIsbn(isbn);
     }
 
     @GetMapping("/getBy/{id}")

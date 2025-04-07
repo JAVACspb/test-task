@@ -13,7 +13,6 @@ public interface BorrowMapper {
     @Mapping(source = "book.title", target = "bookTitle")
     BorrowResponseDto toDto(Borrow borrow);
 
-    // Маппинг для "читающих клиентов"
     @Mapping(source = "client.fullName", target = "clientFullName")
     @Mapping(source = "client.birthDate", target = "clientBirthDate")
     @Mapping(source = "book.title", target = "bookTitle")

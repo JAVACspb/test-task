@@ -38,7 +38,7 @@ public class Borrow {
     public Borrow(Client client, Book book) {
         this.client = client;
         this.book = book;
-        this.borrowDate = LocalDateTime.now(); // Автоматическая установка даты
+        this.borrowDate = LocalDateTime.now();
     }
 
     public UUID getId() {

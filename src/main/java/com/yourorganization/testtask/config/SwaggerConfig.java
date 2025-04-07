@@ -18,9 +18,6 @@ public class SwaggerConfig {
                         .version("1.0.0"));
     }
 
-    /**
-     * Если хотим сгруппировать эндпоинты по v1, v2 и т.п.
-     */
     @Bean
     public GroupedOpenApi apiV1() {
         return GroupedOpenApi.builder()

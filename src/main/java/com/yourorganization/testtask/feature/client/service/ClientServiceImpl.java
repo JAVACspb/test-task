@@ -30,7 +30,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientResponseDto createClient(@Valid ClientRequestDto dto) {
-        // Проверка на наличие дубликата по fullName и birthDate
         Optional<Client> existing = clientRepository.findByFullNameContaining(dto.getFullName(), Pageable.unpaged())
                 .getContent().stream()
                 .filter(client -> client.getBirthDate().equals(dto.getBirthDate()))
@@ -48,7 +47,6 @@ public class ClientServiceImpl implements ClientService {
     public ClientResponseDto updateClient(UUID id, @Valid ClientRequestDto dto) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client with id " + id + " not found"));
-        // При необходимости добавить проверку на дубликаты
         client.setFullName(dto.getFullName());
         client.setBirthDate(dto.getBirthDate());
         Client updated = clientRepository.save(client);

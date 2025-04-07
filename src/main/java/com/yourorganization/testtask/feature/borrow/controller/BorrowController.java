@@ -23,25 +23,24 @@ public class BorrowController implements BorrowApi {
         this.borrowService = borrowService;
     }
 
-    // Выдать книгу клиенту
     @PostMapping("/borrow")
     public BorrowResponseDto borrowBook(@RequestBody @Valid BorrowRequestDto borrowRequestDto) {
         return borrowService.borrowBook(borrowRequestDto);
     }
 
-    // Вернуть книгу
     @PostMapping("/return")
     public BorrowResponseDto returnBook(@RequestBody @Valid BorrowRequestDto borrowRequestDto) {
         return borrowService.returnBook(borrowRequestDto);
     }
 
-    // Получить список всех активных выдач (где returnDate is null)
     @GetMapping("/All_borrowed")
     public Page<BorrowResponseDto> listAllBorrowed(Pageable pageable) {
         return borrowService.listAllBorrowed(pageable);
     }
+
     @GetMapping("/reading-list")
     public Page<ReadingInfoDto> getReadingList(Pageable pageable) {
         return borrowService.getAllReadingClients(pageable);
     }
+
 }

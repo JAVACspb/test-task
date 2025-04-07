@@ -43,14 +43,10 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     @Transactional
     public BorrowResponseDto borrowBook(@Valid BorrowRequestDto dto) {
-        // Проверяем наличие клиента
         Client client = clientRepository.findById(dto.getClientId())
                 .orElseThrow(() -> new BorrowNotFoundException("Client not found with id " + dto.getClientId()));
-        // Проверяем наличие книги
         Book book = bookRepository.findById(dto.getBookId())
                 .orElseThrow(() -> new BorrowNotFoundException("Book not found with id " + dto.getBookId()));
-
-        // Проверяем, есть ли уже активная выдача этой книги для клиента
         Borrow existing = borrowRepository.findByClient_IdAndBook_IdAndReturnDateIsNull(dto.getClientId(), dto.getBookId());
         if (existing != null) {
             throw new BorrowNotFoundException("This book is already borrowed by the client");
@@ -68,11 +64,11 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     @Transactional
     public BorrowResponseDto returnBook(@Valid BorrowRequestDto dto) {
-        // Находим активную выдачу (без возврата) для данного клиента и книги
         Borrow borrow = borrowRepository.findByClient_IdAndBook_IdAndReturnDateIsNull(dto.getClientId(), dto.getBookId());
         if (borrow == null) {
             throw new BorrowNotFoundException("No active borrow found for client and book");
         }
+
         borrow.setReturnDate(LocalDateTime.now());
         Borrow updated = borrowRepository.save(borrow);
         return borrowMapper.toDto(updated);
@@ -89,7 +85,6 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public Page<BorrowResponseDto> listAllBorrowed(Pageable pageable) {
-        // Возвращаем только активные выдачи (где returnDate is null)
         return borrowRepository.findAllByReturnDateIsNull(pageable)
                 .map(borrowMapper::toDto);
     }

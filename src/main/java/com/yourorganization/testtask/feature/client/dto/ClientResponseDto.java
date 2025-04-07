@@ -8,7 +8,6 @@ public class ClientResponseDto {
     private String fullName;
     private LocalDate birthDate;
 
-    // Конструкторы
     public ClientResponseDto() {
     }
 

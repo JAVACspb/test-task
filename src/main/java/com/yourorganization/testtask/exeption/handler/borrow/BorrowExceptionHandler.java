@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class BorrowExceptionHandler {
 
-    // Обработка исключения, когда запись Borrow не найдена
     @ExceptionHandler(BorrowNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBorrowNotFoundException(BorrowNotFoundException ex) {
         ErrorResponse response = new ErrorResponse(ErrorCode.BORROW_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    // Обработка исключения, когда данные о Borrow некорректны
     @ExceptionHandler(InvalidBorrowDataException.class)
     public ResponseEntity<ErrorResponse> handleInvalidBorrowDataException(InvalidBorrowDataException ex) {
         ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_BORROW_DATA, ex.getMessage());

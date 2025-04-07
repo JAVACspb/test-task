@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/v1/")
 public class BookController implements BookApi {
 
     private final BookService bookService;

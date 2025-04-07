@@ -33,7 +33,7 @@ public class BookServiceImpl implements BookService {
         }
         Book book = bookMapper.toEntity(dto);
         book.setCreatedAt(LocalDateTime.now());
-        book.setUpdateAt(LocalDateTime.now());
+        book.setUpdatedAt(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
@@ -48,7 +48,7 @@ public class BookServiceImpl implements BookService {
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
         book.setIsbn(dto.getIsbn());
-        book.setUpdateAt(LocalDateTime.now());
+        book.setUpdatedAt(LocalDateTime.now());
         return bookMapper.toDto(bookRepository.save(book));
     }
 

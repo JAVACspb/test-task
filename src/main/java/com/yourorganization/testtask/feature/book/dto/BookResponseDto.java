@@ -32,6 +32,7 @@ public class BookResponseDto {
     @NotNull(message = "Update time is mandatory")
     private LocalDateTime updatedAt;
 
+
     public BookResponseDto() {
     }
 

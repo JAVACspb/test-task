@@ -1,97 +1,81 @@
 # 📚 Library Management System
 
-Проект представляет собой REST API для управления библиотекой: добавление и обновление книг, регистрация клиентов, учёт взятых и возвращённых книг.
+Это веб-приложение для управления библиотекой. Позволяет работать с книгами, клиентами и их бронированиями. Поддерживает CRUD-операции, фильтрацию, пагинацию и просмотр активных читателей.
 
-## 🚀 Быстрый старт
+---
 
-### 📦 Сборка проекта
+## 📦 Стек технологий
 
-Проект собирается через Maven:
+- Java 8
+- Spring Boot 2
+- PostgreSQL 14 (в Docker)
+- Liquibase
+- MapStruct
+- Swagger UI
+- Maven
+- Docker + Docker Compose
+
+---
+
+## 🚀 Запуск приложения
+
+### 📥 1. Клонировать репозиторий
+
+```bash
+git clone https://github.com/yourname/library-app.git
+cd library-app
+```
+
+### ⚙️ 2. Собрать проект
 
 ```bash
 mvn clean package
 ```
 
-### 🐳 Запуск базы данных PostgreSQL
-
-В корне проекта находится `docker-compose.yml`, поднимающий PostgreSQL 14:
+### 🐳 3. Запустить через Docker Compose
 
 ```bash
-docker-compose up -d
+docker compose down -v         # Остановить и удалить старые контейнеры + volume
+docker compose up --build      # Пересобрать образы и запустить проект
 ```
 
-База будет доступна по следующим параметрам:
+📌 Приложение автоматически поднимется по адресу:  
+`http://localhost:8080`
 
-- Хост: `localhost`
-- Порт: `5432`
-- Имя базы данных: `library`
-- Пользователь: `postgres`
-- Пароль: `password`
+---
 
-> ⚠️ Эти параметры можно изменить в `application.yml`.
+## 🧪 Тестирование API
 
-### 🧠 Автоматическое создание схемы
+После запуска доступна документация Swagger UI:
 
-При первом запуске:
-- Применяются все изменения Liquibase (создание таблиц, индексов и ограничений);
-- Схема инициализируется автоматически.
+🔗 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-### ☕ Запуск приложения
+---
 
-После сборки выполните:
+## ⚙️ Особенности деплоймента
 
-```bash
-java -jar target/library-0.0.1-SNAPSHOT.jar
-```
+1. Все настройки (БД, порты, переменные) описаны в `docker-compose.yml` и `application.properties`
+2. Схема базы данных автоматически создаётся при старте с помощью Liquibase
+3. Maven компиляция: `mvn package`
+4. Запуск: `docker compose up --build`
+5. Swagger доступен по ссылке выше
 
-### 📖 Swagger (OpenAPI UI)
-
-После запуска API доступно по адресу:
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
+---
 
 ## 📂 Структура проекта
 
 ```
-├── src/main/java/com/yourorganization/testtask
-│   ├── feature/book
-│   ├── feature/client
-│   ├── feature/borrow
-│   ├── exception
-│   ├── config
-│   └── ...
-├── src/main/resources
-│   ├── application.yml
-│   └── db/changelog/
-│       └── *.xml  (Liquibase changelogs)
-├── docker-compose.yml
-└── README.md
+src/
+ └── main/
+     ├── java/
+     │   └── com.yourorganization.testtask/
+     │       ├── feature/
+     │       │   ├── book/
+     │       │   ├── client/
+     │       │   └── borrow/
+     └── resources/
+         ├── application.yml
+         └── db/changelog/
 ```
-
-## ✅ Основной функционал
-
-- 📘 CRUD-операции над книгами (`/api/books`)
-- 👤 CRUD-операции над клиентами (`/api/clients`)
-- 📚 Учёт взятых и возвращённых книг (`/api/borrow`)
-- 📄 Получение списка читающих клиентов с полной информацией (`/api/borrow/reading_list`)
-
-## 🔒 Валидация и обработка ошибок
-
-- Валидация всех входящих DTO через `javax.validation`
-- Кастомные исключения с централизованной обработкой в `@ControllerAdvice`
-
-## 💡 Технологии
-
-- Java 8
-- Spring Boot 2
-- Spring Data JPA
-- PostgreSQL 14
-- Liquibase
-- MapStruct
-- Swagger / OpenAPI
-- Docker + Docker Compose
 
 ---

@@ -18,27 +18,4 @@ public class SwaggerConfig {
                         .version("1.0.0"));
     }
 
-    @Bean
-    public GroupedOpenApi apiV1() {
-        return GroupedOpenApi.builder()
-                .group("v1")
-                .pathsToMatch("/api/v1/**")
-                .build();
-    }
-    @Bean
-    public GroupedOpenApi clientApi() {
-        return GroupedOpenApi.builder()
-                .group("v2")
-                .pathsToMatch("/api/v2/**")
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi borrowApi() {
-        return GroupedOpenApi.builder()
-                .group("v3")
-                .pathsToMatch("/api/v3/**")
-                .build();
-    }
-
 }

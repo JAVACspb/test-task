@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Service("clientServiceImpl1")
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
@@ -29,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public ClientResponseDto createClient(@Valid ClientRequestDto dto) {
         Optional<Client> existing = clientRepository.findByFullNameContaining(dto.getFullName(), Pageable.unpaged())
                 .getContent().stream()
@@ -44,6 +46,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public ClientResponseDto updateClient(UUID id, @Valid ClientRequestDto dto) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client with id " + id + " not found"));
@@ -54,6 +57,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ClientResponseDto findClientById(UUID id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client with id " + id + " not found"));
@@ -61,6 +65,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public void deleteClient(UUID id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client with id " + id + " not found"));
@@ -68,6 +73,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ClientResponseDto> listClients(String fullNameFilter, Pageable pageable) {
         Page<Client> clients;
         if (fullNameFilter != null && !fullNameFilter.isEmpty()) {

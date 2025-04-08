@@ -28,8 +28,16 @@
             </column>
         </createTable>
 
-        <createIndex indexName="idx_book_isbn" tableName="book">
+        <createIndex indexName="idx_book_isbn" tableName="book" unique="true">
             <column name="isbn"/>
+        </createIndex>
+
+        <createIndex indexName="idx_book_author" tableName="book">
+            <column name="author"/>
+        </createIndex>
+
+        <createIndex indexName="idx_book_title" tableName="book">
+            <column name="title"/>
         </createIndex>
     </changeSet>
 

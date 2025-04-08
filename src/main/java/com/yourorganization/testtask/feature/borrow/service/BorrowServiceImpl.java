@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service("borrowServiceImpl1")
 public class BorrowServiceImpl implements BorrowService {
 
     private final BorrowRepository borrowRepository;
@@ -73,6 +73,8 @@ public class BorrowServiceImpl implements BorrowService {
         Borrow updated = borrowRepository.save(borrow);
         return borrowMapper.toDto(updated);
     }
+
+    @Transactional(readOnly = true)
     public Page<ReadingInfoDto> getAllReadingClients(Pageable pageable) {
         Page<Borrow> page = borrowRepository.findAllByReturnDateIsNull(pageable);
 
@@ -84,6 +86,7 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<BorrowResponseDto> listAllBorrowed(Pageable pageable) {
         return borrowRepository.findAllByReturnDateIsNull(pageable)
                 .map(borrowMapper::toDto);

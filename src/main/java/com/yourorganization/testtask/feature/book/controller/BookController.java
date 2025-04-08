@@ -3,6 +3,7 @@ package com.yourorganization.testtask.feature.book.controller;
 import com.yourorganization.testtask.feature.book.dto.BookRequestDto;
 import com.yourorganization.testtask.feature.book.dto.BookResponseDto;
 import com.yourorganization.testtask.feature.book.service.BookService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,8 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/books/")
+@Tag(name = "Books", description = "Операции с книгами")
 public class BookController implements BookApi {
 
     private final BookService bookService;

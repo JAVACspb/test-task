@@ -18,6 +18,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createIndex indexName="idx_client_full_name" tableName="client">
+            <column name="full_name"/>
+        </createIndex>
+
+        <createIndex indexName="idx_client_full_name_birth_date" tableName="client">
+            <column name="full_name"/>
+            <column name="birth_date"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

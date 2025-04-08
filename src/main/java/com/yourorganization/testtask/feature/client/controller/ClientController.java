@@ -3,7 +3,9 @@ package com.yourorganization.testtask.feature.client.controller;
 import com.yourorganization.testtask.feature.client.dto.ClientRequestDto;
 import com.yourorganization.testtask.feature.client.dto.ClientResponseDto;
 import com.yourorganization.testtask.feature.client.service.ClientService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +14,14 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v2/")
+@RequestMapping("/api/clients")
+@Tag(name = "Clients", description = "Операции с клиентами")
 public class ClientController implements ClientApi {
 
     private final ClientService clientService;
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(@Qualifier("clientServiceImpl1")ClientService clientService) {
         this.clientService = clientService;
     }
 

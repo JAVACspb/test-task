@@ -15,17 +15,14 @@ public class Borrow {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotNull(message = "Client is mandatory")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @NotNull(message = "Book is mandatory")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @NotNull(message = "Borrow date is mandatory")
     @Column(name = "borrow_date", nullable = false)
     private LocalDateTime borrowDate;
 

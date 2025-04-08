@@ -25,14 +25,6 @@
             </column>
 
             <column name="return_date" type="TIMESTAMP"/>
-
-            <column name="created_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="updated_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="borrow" baseColumnNames="client_id"
@@ -43,16 +35,26 @@
                                  referencedTableName="book" referencedColumnNames="id"
                                  constraintName="fk_borrow_book"/>
 
-        <createIndex indexName="idx_borrow_borrow_date" tableName="borrow">
-            <column name="borrow_date"/>
-        </createIndex>
-
         <createIndex indexName="idx_borrow_client_id" tableName="borrow">
             <column name="client_id"/>
         </createIndex>
 
         <createIndex indexName="idx_borrow_book_id" tableName="borrow">
             <column name="book_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_borrow_borrow_date" tableName="borrow">
+            <column name="borrow_date"/>
+        </createIndex>
+
+        <createIndex indexName="idx_borrow_client_active" tableName="borrow">
+            <column name="client_id"/>
+            <column name="return_date"/>
+        </createIndex>
+
+        <createIndex indexName="idx_borrow_book_active" tableName="borrow">
+            <column name="book_id"/>
+            <column name="return_date"/>
         </createIndex>
     </changeSet>
 

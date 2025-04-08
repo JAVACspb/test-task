@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,8 +26,8 @@ public class BookServiceImpl implements BookService {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
     }
-
-    public BookResponseDto createBook(@Valid BookRequestDto dto) {
+    @Transactional
+    public BookResponseDto createBook(BookRequestDto dto) {
         if (bookRepository.findByIsbn(dto.getIsbn()) != null) {
             throw new InvalidBookDataException("Book with ISBN " + dto.getIsbn() + " already exists.");
         }
@@ -38,8 +38,8 @@ public class BookServiceImpl implements BookService {
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
-
-    public BookResponseDto updateBook(UUID id, @Valid BookRequestDto dto) {
+    @Transactional
+    public BookResponseDto updateBook(UUID id,BookRequestDto dto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book with id " + id + " not found"));
         if (!book.getIsbn().equals(dto.getIsbn()) && bookRepository.findByIsbn(dto.getIsbn()) != null) {
@@ -51,19 +51,19 @@ public class BookServiceImpl implements BookService {
         book.setUpdatedAt(LocalDateTime.now());
         return bookMapper.toDto(bookRepository.save(book));
     }
-
+    @Transactional(readOnly = true)
     public BookResponseDto findBookById(UUID id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book with id " + id + " not found"));
         return bookMapper.toDto(book);
     }
-
+    @Transactional
     public void deleteBook(UUID id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book with id " + id + " not found"));
         bookRepository.delete(book);
     }
-
+    @Transactional(readOnly = true)
     public Page<BookResponseDto> listBooks(String titleFilter, Pageable pageable) {
         Page<Book> booksPage;
         if (titleFilter != null && !titleFilter.isEmpty()) {
@@ -73,7 +73,7 @@ public class BookServiceImpl implements BookService {
         }
         return booksPage.map(bookMapper::toDto);
     }
-
+    @Transactional(readOnly = true)
     public BookResponseDto findBookByIsbn(String isbn) {
         Book book = bookRepository.findByIsbn(isbn);
         if (book == null) {
